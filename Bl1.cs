@@ -1,4 +1,5 @@
 ﻿using ConsoleAppTest.Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -191,6 +192,7 @@ namespace ConsoleAppTest
 
                     }
                     closeinfoList.Add(сloseInfo); // при каждой итераци добавляем в список новый обьект
+                    SaveDanni(сloseInfo); // запись в json
                 }
 
                 Console.WriteLine();
@@ -303,9 +305,9 @@ namespace ConsoleAppTest
         }
 
 
-        public void SaveDanni()
+        public void SaveDanni(Object testSettingsJson)
         {
-            Bl bl = new Bl();
+           
             try
             {
 
@@ -324,18 +326,19 @@ namespace ConsoleAppTest
                 string result = JsonConvert.SerializeObject(testSettingsJson);
 
                 //using (StreamWriter sw = new StreamWriter("user.json", true, System.Text.Encoding.Default)) //перезапись файла.
-                using (StreamWriter sw = new StreamWriter("user.json", false, System.Text.Encoding.Default))
+
+                using (StreamWriter sw = new StreamWriter("CloseInfoItems.json", true, System.Text.Encoding.Default))
 
                 // using (StreamWriter sw = new StreamWriter(myPachDir + @"texLog.txt", true, System.Text.Encoding.Default))
                 {
                     sw.WriteLine(result); // запись
-                    bl.WrateText("попытка записи файла user.json");
+                    WrateText("попытка записи файла user.json");
                 }
             }
             catch (Exception ex)
             {
 
-                bl.WrateText("Ошибка при создании файла настроек user.json");
+                WrateText("Ошибка при создании файла настроек user.json");
             }
 
             #region Всяко разно НЕ смотреть
