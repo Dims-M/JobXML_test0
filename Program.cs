@@ -15,8 +15,8 @@ namespace ConsoleAppTest
             Bl servis = new Bl();
             // servis.ReadingXml();//чтение файла Компании
             // servis.TestMethod();
-            // servis.ReadCloseXmil(); //чтение файла закрытия ип
-            // servis.ReadEntrepreneurs(); //чтение файла ИП и создание файла json
+             servis.ReadCloseXmil(); //чтение файла закрытия ип
+             servis.ReadEntrepreneurs(); //чтение файла ИП и создание файла json
 
             servis.ReadingJsonFile(); //чтение jsona
 

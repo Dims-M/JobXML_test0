@@ -428,19 +428,22 @@ namespace ConsoleAppTest
             {
                 string result = JsonConvert.SerializeObject(testSettingsJson);
 
+                JsonSerializer serializer = new JsonSerializer();
                 //using (StreamWriter sw = new StreamWriter("user.json", true, System.Text.Encoding.Default)) //перезапись файла.
 
-                using (StreamWriter sw = new StreamWriter($"{nameFil}.json", true, System.Text.Encoding.Default))
-
+               // using (StreamWriter sw = new StreamWriter($"{nameFil}.json", true, System.Text.Encoding.Default)) 
+                using (StreamWriter sw = new StreamWriter($"{nameFil}.json"))
+                using (JsonWriter writer = new JsonTextWriter(sw))
                 {
-                    sw.WriteLine(result); // запись
+                    serializer.Serialize(writer, testSettingsJson);
+                   // sw.WriteLine(result); // запись
                     WrateText("попытка записи файла user.json");
-                }
+                };
             }
             catch (Exception ex)
             {
 
-                WrateText("Ошибка при создании файла настроек user.json");
+                WrateText($"Ошибка при создании файла настроек user.json \t\n{ex}");
             }
 
         }
@@ -450,7 +453,7 @@ namespace ConsoleAppTest
         {
             string pathJaog = @"entrepreneurs.json";
 
-            var objJson = JsonConvert.DeserializeObject<Entrepreneurs>(File.ReadAllText(pathJaog)).ToString();
+            var objJson = JsonConvert.DeserializeObject<Entrepreneurs>(File.ReadAllText(pathJaog));
 
             Console.WriteLine(objJson);
             Console.ReadKey();
