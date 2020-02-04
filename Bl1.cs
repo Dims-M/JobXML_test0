@@ -445,5 +445,47 @@ namespace ConsoleAppTest
 
         }
 
+
+        public void ReadingJsonFile()
+        {
+            string pathJaog = @"entrepreneurs.json";
+
+            var objJson = JsonConvert.DeserializeObject<Entrepreneurs>(File.ReadAllText(pathJaog));
+
+            Console.WriteLine(objJson);
+            Console.ReadKey();
+        }
+
+
+        //Тестовой метод десириализации json
+        public void DesriJsonTest()
+        {
+
+           // string json = 
+           // MyMusic newMusic = JsonConvert.DeserializeObject<MyMusic>(json);
+
+           // JArray jsonArray = JArray.Parse(jsonText);
+
+        //    int itemsCount = jsonArray.Count;
+
+        //    string[] codes = new string[itemsCount];
+        //    int[] indices = new int[itemsCount];
+
+        //    for (int index = 0; index < itemsCount; ++index)
+        //    {
+        //        codes[index] = (string)jsonArray[index]["Kod"];
+        //        indices[index] = index;
+        //    }
+
+        //    BubbleSort(codes, indices, StringComparer.OrdinalIgnoreCase);
+
+        //    for (int index = 0; index < itemsCount; ++index)
+        //    {
+        //        Console.WriteLine("cycle index: {0}\tarray index: {1}", index, indices[index]);
+        //        Console.WriteLine(jsonArray[indices[index]]);
+        //    }
+        }
+
+
     }
 }
