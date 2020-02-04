@@ -450,7 +450,7 @@ namespace ConsoleAppTest
         {
             string pathJaog = @"entrepreneurs.json";
 
-            var objJson = JsonConvert.DeserializeObject<Entrepreneurs>(File.ReadAllText(pathJaog));
+            var objJson = JsonConvert.DeserializeObject<Entrepreneurs>(File.ReadAllText(pathJaog)).ToString();
 
             Console.WriteLine(objJson);
             Console.ReadKey();
