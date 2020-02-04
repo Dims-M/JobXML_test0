@@ -22,7 +22,10 @@ namespace ConsoleAppTest.Model
         /// </summary>
         public DateTime CloseDate { get; set; }
 
-        //время существования организации в днях
+      
+        /// <summary>
+        /// время существования организации в днях
+        /// </summary>
         public int TimeDayClose { get; set; }
     }
 }

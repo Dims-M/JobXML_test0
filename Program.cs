@@ -13,11 +13,13 @@ namespace ConsoleAppTest
         {
 
             Bl servis = new Bl();
-            // servis.ReadingXml();
+            // servis.ReadingXml();//чтение файла Компании
             // servis.TestMethod();
-             servis.ReadCloseXmil();
+           // servis.ReadCloseXmil(); //чтение файла закрытия ип
+            servis.ReadEntrepreneurs(); //чтение файла ИП
 
-            // servis.JobDateTTime();
+
+
 
 
         }

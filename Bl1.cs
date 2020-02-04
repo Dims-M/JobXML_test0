@@ -19,6 +19,7 @@ namespace ConsoleAppTest
     {
         string pathXml = @"companies.xml";
         string pathXmlCloseInfo = @"closeinfo.xml";
+        string pathXmlEntrepreneurs = @"entrepreneurs.xml";
 
         //действующие компании
         int companesTrue;
@@ -27,6 +28,7 @@ namespace ConsoleAppTest
         List<Company> companys = new List<Company>();
 
         List<CloseInfo> closeinfoList = new List<CloseInfo>();
+        List<Entrepreneurs> entrepreneursList = new List<Entrepreneurs>();
 
         /// <summary>
         /// Чтение файла  xml
@@ -129,7 +131,9 @@ namespace ConsoleAppTest
         }
 
         //выборка из xml
-
+        /// <summary>
+        /// чтение хml файла Закрытых фирм
+        /// </summary>
         public void ReadCloseXmil()
         {
             XmlDocument xDoc = new XmlDocument();
@@ -180,19 +184,128 @@ namespace ConsoleAppTest
                         {
                             сloseInfo.CloseDate = DateTime.Parse(childnode.InnerText);
                             temData = DateTime.Parse(childnode.InnerText);
-                            Console.WriteLine($"датаз акрытия  компании: {childnode.InnerText}");
+                            Console.WriteLine($"дата закрытия  компании: {childnode.InnerText}");
                         }
 
-                        // если узел время существование организации
-                       //else /*(childnode.Name == "TimeDayClose")*/
-                       // {
-                            сloseInfo.TimeDayClose = JobDateTTime(temData); //вычитаем даты
-                            Console.WriteLine($"Дата закрытия организации: {сloseInfo.TimeDayClose}\t\n");
-                     //   }
+                        сloseInfo.TimeDayClose = JobDateTTime(temData); //вычитаем даты
+                        Console.WriteLine($"Дата закрытия организации: {сloseInfo.TimeDayClose}\t\n");
+                     
 
                     }
                     closeinfoList.Add(сloseInfo); // при каждой итераци добавляем в список новый обьект
-                    SaveDanni(сloseInfo); // запись в json
+                    SaveDanni(сloseInfo, "CloseInfoItems"); // запись в json
+                }
+
+                Console.WriteLine();
+
+                foreach (CloseInfo com in closeinfoList)
+                {
+                    Console.WriteLine($"Номер ID :{com.Id} - Дата закрытия:{com.CloseDate}  - Количество дней существования фирмы {com.TimeDayClose}");
+                }
+
+                //Console.WriteLine($"Количество действующих компаний = {companesTrue}");
+
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Что то пошло не так...Надо разбиратся...\t\n{ex}");
+            }
+
+            Console.Read();
+        }
+
+        /// <summary>
+        /// Чтение файла об ИП
+        /// </summary>
+        public void ReadEntrepreneurs()
+        {
+            XmlDocument xDoc = new XmlDocument();
+
+            DateTime temData = DateTime.Now;
+
+            try
+            {
+                //загружаем хмл
+                xDoc.Load(pathXmlEntrepreneurs);
+
+                // получим корневой элемент
+                XmlElement xRoot = xDoc.DocumentElement;
+
+                // обход всех узлов в корневом элементе
+                foreach (XmlNode xnode in xRoot)
+                {
+                    //обьект для заполнения данными из листа
+                    Entrepreneurs entrepreneurs = new Entrepreneurs();
+
+                    // получаем атрибут name
+                    if (xnode.Attributes.Count > 0)
+
+                    {
+
+                        XmlNode attr = xnode.Attributes.GetNamedItem("Name");
+                        if (attr != null)
+                        {
+                            //заполняем обьект 
+                            //  сompany.Name = attr.Value; 
+                            //  Console.WriteLine(attr.Value);
+                        }
+                    }
+
+
+                    // обходим все дочерние узлы элемента user
+                    foreach (XmlNode childnode in xnode.ChildNodes)
+                    {
+                        // если узел Id
+                        if (childnode.Name == "Id")
+                        {
+                            entrepreneurs.Id = int.Parse(childnode.InnerText);
+                            Console.WriteLine($"ID {childnode.InnerText}");
+                        }
+
+                        // если узел первое имя организации
+                        if (childnode.Name == "FirstName")
+                        {
+                            entrepreneurs.FirstName = childnode.InnerText;
+                            Console.WriteLine($"Название Ипешника: {childnode.InnerText}");
+                        }
+
+                        // если узел второе имя организации
+                        if (childnode.Name == "SecondName")
+                        {
+                            entrepreneurs.SecondName = childnode.InnerText;
+                            Console.WriteLine($"Втрое Название Ипешника: {childnode.InnerText}");
+                        }
+
+                        // если узел  доход ИП
+                        if (childnode.Name == "Profit")
+                        {
+                            entrepreneurs.Profit = double.Parse(childnode.InnerText);
+                            Console.WriteLine($"Доход организации: {childnode.InnerText}");
+                        }
+
+                        // если узел Открытия организации
+                        if (childnode.Name == "CloseDate")
+                        {
+                            entrepreneurs.CreationDate = DateTime.Parse(childnode.InnerText);
+                            temData = DateTime.Parse(childnode.InnerText);
+                            Console.WriteLine($"Дата открытия  компании: {childnode.InnerText}");
+                        }
+
+                        // если узел Дата выгрузки отчета организации
+                        if (childnode.Name == "ReportDate")
+                        {
+                            entrepreneurs.ReportDate = DateTime.Parse(childnode.InnerText);
+                            temData = DateTime.Parse(childnode.InnerText);
+                            Console.WriteLine($"Дата выгрузки отчета  компании: {childnode.InnerText}");
+                        }
+                        //entrepreneurs.TimeDayClose = JobDateTTime(temData); //вычитаем даты
+                        //Console.WriteLine($"Дата закрытия организации: {сloseInfo.TimeDayClose}\t\n");
+
+
+                    }
+                    entrepreneursList.Add(entrepreneurs); // при каждой итераци добавляем в список новый обьект
+                    SaveDanni(entrepreneurs, "entrepreneurs"); // запись в json
                 }
 
                 Console.WriteLine();
@@ -216,8 +329,6 @@ namespace ConsoleAppTest
 
 
 
-
-
      public  void TestMethod()
         {
             XmlDocument docXML = new XmlDocument(); // XML-документ
@@ -230,6 +341,8 @@ namespace ConsoleAppTest
             Console.WriteLine(nameCompane);
             Console.ReadKey();
         }
+
+
 
         /// <summary>
         /// Получение временной разницы
@@ -305,31 +418,20 @@ namespace ConsoleAppTest
         }
 
 
-        public void SaveDanni(Object testSettingsJson)
+        /// <summary>
+        /// Запись полученных обьектов в json формат
+        /// </summary>
+        /// <param name="testSettingsJson"></param>
+        public void SaveDanni(Object testSettingsJson, string nameFil)
         {
-           
             try
             {
-
-                ////создаем класс с настройками и заполняем его перед сеарилизацией
-                //TestSettingsJson testSettingsJson = new TestSettingsJson
-                //{
-                //    version = 1.0,
-                //    dataCreate = "23.01.2020",
-                //    idApp = 123,
-                //    startUpdate = false,
-                //    deferredUpdate = true,
-                //    deleteApp = 0 //если  0, то  удаления нет
-
-                //};
-
                 string result = JsonConvert.SerializeObject(testSettingsJson);
 
                 //using (StreamWriter sw = new StreamWriter("user.json", true, System.Text.Encoding.Default)) //перезапись файла.
 
-                using (StreamWriter sw = new StreamWriter("CloseInfoItems.json", true, System.Text.Encoding.Default))
+                using (StreamWriter sw = new StreamWriter($"{nameFil}.json", true, System.Text.Encoding.Default))
 
-                // using (StreamWriter sw = new StreamWriter(myPachDir + @"texLog.txt", true, System.Text.Encoding.Default))
                 {
                     sw.WriteLine(result); // запись
                     WrateText("попытка записи файла user.json");
@@ -340,27 +442,6 @@ namespace ConsoleAppTest
 
                 WrateText("Ошибка при создании файла настроек user.json");
             }
-
-            #region Всяко разно НЕ смотреть
-            // string serialized = JsonSerializer.Serialize<TestSettingsJson>(testSettingsJson);
-            // var result = JsonConvert.DeserializeObject<TestSettingsJson>(testSettingsJson);
-            // JsonSerializer.Serialize(testSettingsJson);
-            //var json = JsonSerializer.Serialize<TestSettingsJson>(testSettingsJson);
-
-            //// сохранение данных
-            //using (FileStream fs = new FileStream("setting.json", FileMode.OpenOrCreate))
-            //{
-            //   // Person tom = new Person() { Name = "Tom", Age = 35 };
-
-            //    string serialized = JsonConvert.SerializeObject(fs,testSettingsJson);
-
-            //    await JsonSerializer.SerializeAsync<TestSettingsJson>(fs, testSettingsJson);
-
-            //    
-            #endregion
-
-            //Лог событий о работе
-            int i = 0;
 
         }
 
