@@ -17,9 +17,9 @@ namespace ConsoleAppTest
    public  class Bl
 
     {
-        string pathXml = @"companies.xml";
-        string pathXmlCloseInfo = @"closeinfo.xml";
-        string pathXmlEntrepreneurs = @"entrepreneurs.xml";
+        string pathXml = @"Documents\companies.xml";
+        string pathXmlCloseInfo = @"Documents\closeinfo.xml";
+        string pathXmlEntrepreneurs = @"Documents\entrepreneurs.xml";
 
         //действующие компании
         int companesTrue;
