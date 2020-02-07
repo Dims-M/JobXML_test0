@@ -429,9 +429,10 @@ namespace ConsoleAppTest
                 string result = JsonConvert.SerializeObject(testSettingsJson);
 
                 JsonSerializer serializer = new JsonSerializer();
-                //using (StreamWriter sw = new StreamWriter("user.json", true, System.Text.Encoding.Default)) //перезапись файла.
 
+                //using (StreamWriter sw = new StreamWriter("user.json", true, System.Text.Encoding.Default)) //перезапись файла
                // using (StreamWriter sw = new StreamWriter($"{nameFil}.json", true, System.Text.Encoding.Default)) 
+               
                 using (StreamWriter sw = new StreamWriter($"{nameFil}.json"))
                 using (JsonWriter writer = new JsonTextWriter(sw))
                 {
